@@ -1,0 +1,20 @@
+button {
+  visibility: hidden;
+}
+
+#textArea {
+  display: block;
+  width: 100%;
+  margin: auto;
+
+}
+
+#textbox {
+  width: 500px;
+  margin: 0 auto;
+}
+
+ul, li{
+  margin: 0 auto;
+  list-style: none;
+}
