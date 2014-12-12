@@ -5,6 +5,12 @@ var clients = [];
 var history = [];
 
 server.on("connection", function(connected) {
+
+  clients.forEach(function(client) {
+    var newPerson = {name: "user[]", msg: "has joined the chat", color: "black"}
+    client.send(JSON.stringify(newPerson));
+  })
+
   clients.push(connected);
   console.log(clients.length);
   // if (clients.length === 1){
@@ -18,7 +24,7 @@ server.on("connection", function(connected) {
   // }
   if (history.length > 0) {
     history.forEach(function(msg){
-    connected.send(msg);
+    connected.send(JSON.stringify(msg));
     })
   }
 

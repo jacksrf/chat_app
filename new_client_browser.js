@@ -1,7 +1,7 @@
-var client = new WebSocket("ws://localhost:3000");
+var client = new WebSocket("ws://trey.princesspeach.nyc:3000");
 
 var name = prompt("Please Enter A User Name!");
-console.log(userName);
+console.log(name);
 var userColor = prompt("What is your favorite color?");
 console.log(userColor);
 var userName = name.toUpperCase();
