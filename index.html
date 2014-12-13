@@ -1,15 +1,34 @@
 <html>
   <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <header>
+      <h1>The Chat Room</h1>
+    </header>
     <div id="textArea">
-      <input type="text" id="textBox">
+      User Name: <input type="text" id="userNameInput" >
+      COLOR: <select id="ddl" name="Message Color">
+        <option value=""></option>
+        <option value="black">black</option>
+        <option value="blue">blue</option>
+        <option value="brown">brown</option>
+        <option value="gray">gray</option>
+        <option value="green">green</option>
+        <option value="orange">orange</option>
+        <option value="pink">pink</option>
+        <option value="purple">purple</option>
+        <option value="red">red</option>
+        <option value="yellow">yellow</option>
+      </select>
+      Message: <input type="text" id="textBox" >
       <button placeholder="submit"></button>
     </div>
+    <div id="chatbox">
       <ul>
       </ul>
+    </div>
 
     <script src="new_client_browser.js"></script>
   </body>

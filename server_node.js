@@ -24,7 +24,7 @@ server.on("connection", function(connected) {
   // }
   if (history.length > 0) {
     history.forEach(function(msg){
-    connected.send(JSON.stringify(msg));
+      connected.send(msg);
     })
   }
 

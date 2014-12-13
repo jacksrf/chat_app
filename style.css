@@ -1,20 +1,43 @@
+h1 {
+  margin: 0 auto;
+  width: 250px;
+}
+
+input {
+  outline: none;
+}
+
 button {
   visibility: hidden;
 }
 
 #textArea {
   display: block;
-  width: 100%;
-  margin: auto;
+  margin: 5px;
+  border-bottom-width: 0px;
+  border-width: 5px;
+  border-color: black;
+  border-style: solid;
+  padding: 5px;
 
 }
 
 #textbox {
-  width: 500px;
-  margin: 0 auto;
+  width: 57%;
+  margin: 5px;
 }
 
 ul, li{
   margin: 0 auto;
   list-style: none;
+}
+
+#chatbox {
+  height: 500px;
+  margin: 5px;
+  padding: 5px;
+  border-width: 5px;
+  border-color: black;
+  border-style: solid;
+  overflow-y: scroll;
 }

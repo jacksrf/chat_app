@@ -1,26 +1,47 @@
-var client = new WebSocket("ws://trey.princesspeach.nyc:3000");
+var client = new WebSocket("ws://localhost:3000");
 
-var name = prompt("Please Enter A User Name!");
-console.log(name);
-var userColor = prompt("What is your favorite color?");
-console.log(userColor);
-var userName = name.toUpperCase();
+var reminderCount = 0;
+
+var userName = "";
 
 client.addEventListener("open", function(connection) {
   console.log('connected');
+
+  connection.onopen = function() {
+    client.send(userName);
+  }
 
   //HTML elements
   var body = document.querySelector("body");
   var ul = document.querySelector("ul");
   var button = document.querySelector("button");
 
-  var li = document.createElement("li");
-  li.style.color = userColor;
-  li.innerText = "Hi " + userName + "! Remember your color is " + userColor;
-  ul.insertBefore(li, ul.firstChild);
+  // var li = document.createElement("li");
+  // li.style.color = userColor;
+  // li.innerText = "Hi " + userName + "! Remember your color is " + userColor;
+  // ul.insertBefore(li, ul.firstChild);
 
   button.addEventListener("click", function() {
     var yourSent = document.getElementById("textBox");
+
+    var nameInput = document.getElementById("userNameInput");
+    var name = nameInput.value;
+
+    var userName = name.toUpperCase();
+
+    var colorChoice = document.getElementById("ddl");
+    var userColor = colorChoice.options[colorChoice.selectedIndex].value;
+    if (nameInput.value.trim() !== "" && userColor.trim() !== "") {
+      
+      if (reminderCount === 0) {
+        var li = document.createElement("li");
+        li.style.color = userColor;
+        li.innerText = "Hi " + userName + "! Remember your color is " + userColor;
+        ul.insertBefore(li, ul.firstChild);
+        reminderCount++;
+      }
+
+
     //create messageObject with name and message
     var messageObject = {name: userName, msg: yourSent.value, color: userColor};
     //take messageObject, stringify and send to server
@@ -30,12 +51,17 @@ client.addEventListener("open", function(connection) {
       client.send(JSON.stringify(messageObject));
     }
 
+
     //resets input box
     yourSent.value = "";
-  })
 
+
+  } else {
+    alert("Please input a Username and Color");
+  }
+})
   // on pressing enter
-  var input = document.querySelector("input");
+  var input = document.getElementById("textBox");
 
   input.addEventListener("keypress", function(){
     if(event.keyCode === 13){
