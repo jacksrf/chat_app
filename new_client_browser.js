@@ -1,16 +1,25 @@
 var client = new WebSocket("ws://localhost:3000");
 
 var reminderCount = 0;
+var alertCount = 0;
 var userName = "";
 var userNames = [];
+var online = [];
+
+
 
 client.addEventListener("open", function(connection) {
+  console.log(userNames);
   //HTML elements
   var body = document.querySelector("body");
   var chatMessages = document.getElementById("chatMessages");
   var loggedList = document.getElementById("loggedList");
   var submit = document.getElementById("submit");
   var logout = document.getElementById("logout");
+
+  var backToTop = function() {
+    console.log("back to top");
+  }
 
   submit.addEventListener("click", function() {
     var yourSent = document.getElementById("textBox");
@@ -19,6 +28,16 @@ client.addEventListener("open", function(connection) {
     var name = nameInput.value;
 
     var userName = name.toUpperCase();
+    online.forEach(function(user) {
+      if (user === userName) {
+        alertCount++;
+        reminderCount++;
+        if (alertCount > 0) {
+          alert("That name is already taken!");
+        }
+      }
+    })
+    console.log(reminderCount);
 
     var colorChoice = document.getElementById("ddl");
     var userColor = colorChoice.options[colorChoice.selectedIndex].value;
@@ -32,14 +51,14 @@ client.addEventListener("open", function(connection) {
         reminderCount++;
       }
 
-
+    console.log(reminderCount);
     //create messageObject with name and message
     var messageObject = {name: userName, msg: yourSent.value, color: userColor, loggedIn: userName};
 
     //take messageObject, stringify and send to server
 
     //will only send something if the input actually has text
-    if (yourSent.value.trim() != "") {
+    if (yourSent.value.trim() != "" && alertCount === 0) {
       client.send(JSON.stringify(messageObject));
     }
 
@@ -49,6 +68,9 @@ client.addEventListener("open", function(connection) {
 
     //resets input box
     yourSent.value = "";
+    reminderCount = 0;
+    alertCount = 0;
+
 
 
   } else {
@@ -71,17 +93,20 @@ client.addEventListener("open", function(connection) {
 
     console.log(userNames);
     console.log(newMessage.remove);
-
+//removing a user from loggedOn list and online array(this frees up the name to be used again)
     userNames.forEach(function(user) {
       if (user === newMessage.remove) {
         console.log(newMessage.remove)
         var loggedList = document.getElementById("loggedList");
         var userRemove = document.getElementById(newMessage.remove);
         loggedList.removeChild(userRemove);
+        var removeIndex = online.indexOf(newMessage.remove);
+        online.splice(removeIndex, 1);
+
       }
     })
 
-
+//letting existing users know that someone joined the chat
     if (userNames.length > 0) {
     var index = userNames.indexOf(newMessage.loggedIn);
       if (index === -1 && newMessage.name !== "ADMIN") {
@@ -93,7 +118,7 @@ client.addEventListener("open", function(connection) {
       chatMessages.insertBefore(li, chatMessages.firstChild);
     }
   }
-
+//adding new users to the online list
     var index2 = userNames.indexOf(newMessage.loggedIn);
       if (index2 === -1 && newMessage.loggedIn !== undefined) {
         var loggedList = document.getElementById("loggedList");
@@ -103,10 +128,12 @@ client.addEventListener("open", function(connection) {
       li.innerHTML = newMessage.loggedIn;
       li.setAttribute("id", newMessage.loggedIn);
       loggedList.appendChild(li);
+
+      online.push(newMessage.loggedIn);
     }
 
 
-
+//adding messages and checking for links, imgs, and gifs
     var chatMessages = document.getElementById("chatMessages");
     var li = document.createElement("li");
     var a = document.createElement("a");
@@ -138,7 +165,7 @@ client.addEventListener("open", function(connection) {
       li.innerText = newMessage.name + ": " + newMessage.msg;
       chatMessages.insertBefore(li, chatMessages.firstChild);
     }
-
+//adds username to array
 userNames.push(newMessage.name);
   });
 
