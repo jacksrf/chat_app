@@ -23,10 +23,16 @@
         <option value="yellow">yellow</option>
       </select>
       Message: <input type="text" id="textBox" >
-      <button placeholder="submit"></button>
+      <button id="submit" placeholder="submit"></button>
+      <button id="logout" onclick="close_window();return false;">LOGOUT</button>
     </div>
     <div id="chatbox">
-      <ul>
+      <ul id="chatMessages">
+      </ul>
+    </div>
+    <div id="onlineList">
+      <ul id="loggedList">
+        <li id="fixedLi">Users Online</li>
       </ul>
     </div>
 

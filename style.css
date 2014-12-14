@@ -7,7 +7,7 @@ input {
   outline: none;
 }
 
-button {
+#submit {
   visibility: hidden;
 }
 
@@ -23,17 +23,36 @@ button {
 }
 
 #textbox {
-  width: 57%;
+  width: 50%;
   margin: 5px;
 }
 
-ul, li{
+#chatmessages {
   margin: 0 auto;
   list-style: none;
 }
 
 #chatbox {
+  float: left;
+  width: 73.5%;
   height: 500px;
+  margin: 5px;
+  padding: 5px;
+  border-width: 5px;
+  border-color: black;
+  border-style: solid;
+  overflow-y: scroll;
+}
+
+#fixedLi {
+  list-style: none;
+  text-decoration: underline;
+}
+
+#onlineList {
+  width: 21%;
+  height: 500px;
+  float: right;
   margin: 5px;
   padding: 5px;
   border-width: 5px;
