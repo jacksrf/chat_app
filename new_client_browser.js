@@ -1,4 +1,4 @@
-var client = new WebSocket("ws://localhost:3000");
+var client = new WebSocket("ws://trey.princesspeach.nyc:3000");
 
 var reminderCount = 0;
 var alertCount = 0;
