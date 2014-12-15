@@ -30,5 +30,11 @@ server.on("connection", function(connected) {
     clients.splice(x, 1);
     console.log('User ' + x + ' has disconnected');
     console.log(clients.length);
+
+
     });
 });
+// clients.forEach(function(client) {
+//   var closeAnnouncement = {name: "ADMIN", msg: "the server has disconnected", color: "#ec1341"};
+//           client.send(closeAnnouncement);
+        // })

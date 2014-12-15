@@ -1,10 +1,39 @@
+body {
+  font-family: 'Inconsolata';
+  background-color: #7f8c8d;
+}
+
+#h1holder {
+  height: 50px;
+}
+
 h1 {
-  margin: 0 auto;
   width: 250px;
+  margin: 0 auto;
 }
 
 input {
+  background-color: #bdc3c7;
   outline: none;
+}
+
+#ddl {
+  background-color: #bdc3c7;
+}
+
+/*#logoutholder {
+  width: 20%;
+  height: 50px;
+  float:right;
+}*/
+
+button#logout {
+  background-color: #c0392b;
+  margin: auto;
+  display: fixed;
+  top: 5px;
+  right: 5px;
+
 }
 
 #submit {
@@ -12,6 +41,8 @@ input {
 }
 
 #textArea {
+  color: white;
+  background-color: black;
   display: block;
   margin: 5px;
   border-bottom-width: 0px;
@@ -23,7 +54,8 @@ input {
 }
 
 #textbox {
-  width: 50%;
+  background-color: #bdc3c7;
+  width: 45%;
   margin: 5px;
 }
 
@@ -33,6 +65,7 @@ input {
 }
 
 #chatbox {
+  background-color: black;
   float: left;
   width: 73.5%;
   height: 500px;
@@ -47,9 +80,11 @@ input {
 #fixedLi {
   list-style: none;
   text-decoration: underline;
+  color: white;
 }
 
 #onlineList {
+  background-color: black;
   width: 21%;
   height: 500px;
   float: right;
@@ -59,4 +94,8 @@ input {
   border-color: black;
   border-style: solid;
   overflow-y: scroll;
+}
+
+#loggedList {
+  list-style-image: url('online.png');
 }

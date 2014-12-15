@@ -2,7 +2,6 @@ var client = new WebSocket("ws://localhost:3000");
 
 var reminderCount = 0;
 var alertCount = 0;
-var userName = "";
 var userNames = [];
 var online = [];
 
@@ -17,59 +16,41 @@ client.addEventListener("open", function(connection) {
   var submit = document.getElementById("submit");
   var logout = document.getElementById("logout");
 
-  var backToTop = function() {
-    console.log("back to top");
-  }
 
   submit.addEventListener("click", function() {
-    var yourSent = document.getElementById("textBox");
+var yourSent = document.getElementById("textBox");
 
-    var nameInput = document.getElementById("userNameInput");
-    var name = nameInput.value;
+var nameInput = document.getElementById("userNameInput");
+var name = nameInput.value;
 
-    var userName = name.toUpperCase();
-    online.forEach(function(user) {
-      if (user === userName) {
-        alertCount++;
-        reminderCount++;
-        if (alertCount > 0) {
-          alert("That name is already taken!");
-        }
-      }
-    })
-    console.log(reminderCount);
+var userName = name.toUpperCase();
+    // online.forEach(function(user) {
+    //   if (user === userName) {
+    //     alertCount++;
+    //     reminderCount++;
+    //     if (alertCount > 0) {
+    //       alert("That name is already taken!");
+    //     }
+    //   }
+    // })
+
 
     var colorChoice = document.getElementById("ddl");
     var userColor = colorChoice.options[colorChoice.selectedIndex].value;
+    var PM = document.getElementById("private");
+    var target = PM.value;
     if (nameInput.value.trim() !== "" && userColor.trim() !== "") {
 
-      if (reminderCount === 0) {
-        var li = document.createElement("li");
-        li.style.color = userColor;
-        li.innerText = "Hi " + userName + "! Remember your color is " + userColor;
-        chatMessages.insertBefore(li, chatMessages.firstChild);
-        reminderCount++;
-      }
-
-    console.log(reminderCount);
-    //create messageObject with name and message
-    var messageObject = {name: userName, msg: yourSent.value, color: userColor, loggedIn: userName};
-
-    //take messageObject, stringify and send to server
-
-    //will only send something if the input actually has text
-    if (yourSent.value.trim() != "" && alertCount === 0) {
+      var messageObject = {name: userName, msg: yourSent.value, color: userColor, loggedIn: userName, private: target};
       client.send(JSON.stringify(messageObject));
-    }
+      console.log(messageObject);
 
+      //resets input box
+      yourSent.value = "";
 
-
-
-
-    //resets input box
-    yourSent.value = "";
-    reminderCount = 0;
-    alertCount = 0;
+      target = "";
+      reminderCount = 0;
+      alertCount = 0;
 
 
 
@@ -91,8 +72,8 @@ client.addEventListener("open", function(connection) {
     //recieves message from server and parses the data
     var newMessage = JSON.parse(message.data);
 
-    console.log(userNames);
-    console.log(newMessage.remove);
+    console.log(userName);
+    console.log(newMessage.private);
 //removing a user from loggedOn list and online array(this frees up the name to be used again)
     userNames.forEach(function(user) {
       if (user === newMessage.remove) {
@@ -107,13 +88,13 @@ client.addEventListener("open", function(connection) {
     })
 
 //letting existing users know that someone joined the chat
-    if (userNames.length > 0) {
+    if (userNames.length > 0 && newMessage.private === null) {
     var index = userNames.indexOf(newMessage.loggedIn);
       if (index === -1 && newMessage.name !== "ADMIN") {
       var chatMessages = document.getElementById("chatMessages");
       var li = document.createElement("li");
 
-      li.style.color = "black";
+      li.style.color = "white";
       li.innerText = newMessage.name + ": has logged into the chat";
       chatMessages.insertBefore(li, chatMessages.firstChild);
     }
@@ -124,7 +105,7 @@ client.addEventListener("open", function(connection) {
         var loggedList = document.getElementById("loggedList");
         var li = document.createElement("li");
 
-      li.style.color = "green";
+      li.style.color = "#7FFF00";
       li.innerHTML = newMessage.loggedIn;
       li.setAttribute("id", newMessage.loggedIn);
       loggedList.appendChild(li);
@@ -140,7 +121,15 @@ client.addEventListener("open", function(connection) {
     var img = document.createElement("img");
     var letterCheck = newMessage.msg;
     var length = newMessage.msg.length;
+    console.log(newMessage.private);
+    console.log(userName);
+    console.log(userNames);
 
+
+
+
+if (newMessage.private === "") {
+  console.log();
    if (letterCheck.charAt(length-2)+letterCheck.charAt(length-1)+letterCheck.charAt(length) === "jpg" || letterCheck.charAt(length-2)+letterCheck.charAt(length-1)+letterCheck.charAt(length) === "png" ) {
       li.style.color = newMessage.color;
       a.setAttribute("href", newMessage.msg);
@@ -165,6 +154,19 @@ client.addEventListener("open", function(connection) {
       li.innerText = newMessage.name + ": " + newMessage.msg;
       chatMessages.insertBefore(li, chatMessages.firstChild);
     }
+  } else if (newMessage.private !== "") {
+    console.log("private");
+    var nameInput = document.getElementById("userNameInput");
+    var name = nameInput.value;
+    var userName = name.toUpperCase();
+      if(userName === newMessage.private || userName === newMessage.name) {
+          var chatMessages = document.getElementById("chatMessages");
+          var li = document.createElement("li");
+          li.style.color = newMessage.color;
+          li.innerText = "private -- " + newMessage.name + ": " + newMessage.msg;
+          chatMessages.insertBefore(li, chatMessages.firstChild);
+      }
+  }
 //adds username to array
 userNames.push(newMessage.name);
   });
@@ -175,7 +177,7 @@ userNames.push(newMessage.name);
 
     var userName = name.toUpperCase();
 
-        var finalMessage = {name: "ADMIN", msg: "a user has left the chat", color: "black", remove: userName};
+        var finalMessage = {name: "ADMIN", msg: "a user has left the chat", color: "white", remove: userName};
         client.send(JSON.stringify(finalMessage));
     })
 });

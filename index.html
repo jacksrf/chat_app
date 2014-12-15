@@ -2,16 +2,20 @@
   <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <header>
-      <h1>The Chat Room</h1>
+      <div id="h1holder">
+        <h1>The Chat Room</h1>
+
+      </div>
     </header>
     <div id="textArea">
       User Name: <input type="text" id="userNameInput" >
       COLOR: <select id="ddl" name="Message Color">
         <option value=""></option>
-        <option value="black">black</option>
+        <option value="white">white</option>
         <option value="blue">blue</option>
         <option value="brown">brown</option>
         <option value="gray">gray</option>
@@ -24,7 +28,8 @@
       </select>
       Message: <input type="text" id="textBox" >
       <button id="submit" placeholder="submit"></button>
-      <button id="logout" onclick="close_window();return false;">LOGOUT</button>
+      <input type="text" id="private" placeholder="private message">
+      <button id="logout" id="logout" onclick="close_window();return false;">LOGOUT</button>
     </div>
     <div id="chatbox">
       <ul id="chatMessages">
